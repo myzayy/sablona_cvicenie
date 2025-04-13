@@ -1,8 +1,8 @@
 <?php
-require_once 'db.php';
-require_once 'QnA.php';
+// require_once 'db.php';
+require_once 'qna.php';
 
-$qna = new QnA($pdo);
+// $qna = new QnA($pdo);
 $data = $qna->getAllQnA();
 ?>
 

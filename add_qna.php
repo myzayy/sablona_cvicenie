@@ -1,8 +1,8 @@
 <?php
-require_once 'db.php';
-require_once 'QnA.php';
+// require_once 'db.php';
+require_once 'qna.php';
 
-$qna = new QnA($pdo);
+// $qna = new QnA($pdo);
 $message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
