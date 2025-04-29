@@ -1,37 +1,3 @@
-<?php
-// showing errors
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
-// connecting to bd
-$host = 'localhost';
-$dbname = 'new_database'; // check if bd exist
-$username = 'root';
-$password = ''; // password
-
-// create connection
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-    
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    echo "Connection failed: " . $e->getMessage();
-    die(); 
-}
-
-// user registration form
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-
-    // adding user to db
-    $query = "INSERT INTO users (name, email, password) VALUES (?, ?, ?)";
-    $stmt = $pdo->prepare($query);
-    $stmt->execute([$name, $email, $password]);
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,22 +11,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <header class="container main-header">
         <div>
-          <a href="index.php">
+          <a href="index.html">
             <img src="img/logo.png" height="40">
           </a>
         </div>
       <nav class="main-nav">
         <ul class="main-menu" id="main-menu">
-            <?php
-            
-            $query = "SELECT * FROM menu_items"; 
-            $stmt = $pdo->prepare($query);
-            $stmt->execute();
-            $menuItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            foreach ($menuItems as $item):
-            ?>
-                <li><a href="<?php echo $item['link']; ?>"><?php echo $item['name']; ?></a></li>
-            <?php endforeach; ?>
+            <li><a href="index.html">Domov</a></li>
+            <li><a href="portfolio.html">Portfólio</a></li>
+            <li><a href="qna.html">Q&A</a></li>
+            <li><a href="kontakt.html">Kontakt</a></li>
         </ul>
         <a class="hamburger" id="hamburger">
             <i class="fa fa-bars"></i>
@@ -69,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </header>
     
     <main>
-      <section class="slides-container">
+    <!-- <section class="slides-container">
         <div class="slide fade">
           <img src="img/banner1.jpg">
           <div class="slide-text">
@@ -94,35 +54,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <a id="prev" class="prev">❮</a>
         <a id="next" class="next">❯</a>
         
+      </section> -->
+      <section class="slides-container">
+        <?php
+          include_once "parts/slides.php";
+            generateSlides("img/banners")
+        ?>
       </section>
-      
       <section class="container">
         <div class="row">
+          <div class="pozdrav">
+            <?php
+            $hour = date(format: 'H');
+            if ($hour < 12) {
+              echo "<h3>Dobre rano!</h3>";
+            } elseif ($hour < 18) {
+              echo "<h3>Dobry den!</h3>";
+            } else {
+              echo "<h3>Dobry vecer!</h3>";
+            }
+              ?>
+          </div>
           <div class="col-100 text-center">
               <p><strong><em>Elit culpa id mollit irure sit. Ex ut et ea esse culpa officia ea incididunt elit velit veniam qui. Mollit deserunt culpa incididunt laborum commodo in culpa.</em></strong></p>
           </div>
         </div>
       </section>
-      
-      <!-- Форма реєстрації користувача -->
       <section class="container">
         <div class="row">
           <div class="col-50">
-            <h2>registration</h2>
+            <h2>Mollit cupidatat velit quis irure non eiusmod culpa cillum velit magna est aliquip.</h2>
           </div>
           <div class="col-50">
-            <form method="POST" action="">
-                <label for="name">Name:</label>
-                <input type="text" name="name" id="name" required>
-                
-                <label for="email">Email:</label>
-                <input type="email" name="email" id="email" required>
-                
-                <label for="password">Password:</label>
-                <input type="password" name="password" id="password" required>
-                
-                <button type="submit">Register</button>
-            </form>
+            <p>Nulla dolore sit esse pariatur culpa sint nulla fugiat nulla ut. Sit adipisicing fugiat id consequat qui est. Nulla ea aliquip culpa nulla mollit do excepteur ex ullamco consequat tempor consectetur. Tempor et ea voluptate irure est magna magna reprehenderit qui non dolore. Consequat id ad cillum do qui. Proident ipsum enim eiusmod fugiat quis anim consequat ullamco mollit excepteur. Eiusmod eu ad irure anim velit laborum commodo nostrud pariatur id ea ad.</p>
+            <p>Incididunt pariatur ipsum in culpa sit cillum consequat nostrud do. Esse commodo ad qui ea. Pariatur elit mollit deserunt aute do culpa eu veniam pariatur in adipisicing qui adipisicing irure. Est minim sint ipsum nulla eiusmod. Amet do officia consectetur labore. Id aute labore culpa aliquip. Adipisicing mollit excepteur Lorem quis elit ipsum irure quis occaecat qui consectetur ad irure dolor.</p>
           </div>
         </div>
       </section>
@@ -132,6 +97,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="row">
       <div class="col-25">
         <h4>Kto sme</h4>
+        <p>Laboris duis ut est fugiat et reprehenderit magna labore aute.</p>
+        <p>Laboris duis ut est fugiat et reprehenderit magna labore aute.</p>
         <p>Laboris duis ut est fugiat et reprehenderit magna labore aute.</p>
       </div>
       <div class="col-25 text-left">
